@@ -1,0 +1,251 @@
+#!/usr/bin/env bash
+
+# Check for Homebrew, install if we don't have it
+if test ! $(which brew); then
+    echo "Installing homebrew..."
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+# Install command-line tools using Homebrew.
+
+# Make sure we’re using the latest Homebrew.
+brew update
+
+# Upgrade any already-installed formulae.
+brew upgrade
+
+# Install GNU core utilities (those that come with macOS are outdated).
+# Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
+
+brew tap homebrew/dupes
+brew install coreutils
+brew install gnu-sed --with-default-names
+brew install gnu-tar --with-default-names
+brew install gnu-indent --with-default-names
+brew install gnu-which --with-default-names
+brew install gnu-grep --with-default-names
+
+# Install Bash 4.
+brew install bash
+brew install bash-completion2
+
+# Switch to using brew-installed bash as default shell
+if ! fgrep -q '/usr/local/bin/bash' /etc/shells; then
+  echo '/usr/local/bin/bash' | sudo tee -a /etc/shells;
+  chsh -s /usr/local/bin/bash;
+fi;
+
+# Remove outdated versions from the cellar.
+brew cleanup
+
+PACKAGES=(
+    ffmpeg
+    gettext
+    gnupg
+    dex2jar
+    imagemagick
+    jq
+    markdown
+    npm
+    python
+    python3
+    vim
+    wget
+    openssh
+)
+
+echo "Installing packages..."
+brew install ${PACKAGES[@]}
+
+echo "Cleaning up..."
+brew cleanup
+
+CASKS=(
+    dropbox
+    firefox
+    libreoffice
+    flux
+    google-chrome
+    iterm2
+    macvim
+    skype
+    slack
+    spectacle
+    virtualbox
+    vlc
+    gimp
+    filezilla
+    keepassx
+    xee
+    tvrenamer
+    intellij-idea-ce
+    qbittorrent
+    virtualbox
+    virtualbox-extension-pack
+    gitkraken
+)
+
+echo "Installing cask apps..."
+brew cask install ${CASKS[@]}
+
+echo "Installing Python packages..."
+PYTHON_PACKAGES=(
+    ipython
+    virtualenv
+    virtualenvwrapper
+    Pillow
+)
+yes | sudo pip3 install ${PYTHON_PACKAGES[@]}
+
+echo "Installing Ruby gems"
+RUBY_GEMS=(
+    bundler
+    fastlane
+    filewatcher
+    cocoapods
+)
+sudo gem install ${RUBY_GEMS[@]}
+
+echo "Applying macOS system preferences"
+
+# ~/.macos — https://mths.be/macos
+
+# Close any open System Preferences panes, to prevent them from overriding
+# settings we’re about to change
+osascript -e 'tell application "System Preferences" to quit'
+
+# Ask for the administrator password upfront
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+###############################################################################
+# General UI/UX                                                               #
+###############################################################################
+
+# Disable the sound effects on boot
+sudo nvram SystemAudioVolume=" "
+
+# Always show scrollbars
+defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
+# Possible values: `WhenScrolling`, `Automatic` and `Always`
+
+# Expand save panel by default
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
+
+# Expand print panel by default
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
+
+# Save to disk (not to iCloud) by default
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
+# Disable Resume system-wide
+defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
+
+###############################################################################
+# Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
+###############################################################################
+
+# Enable full keyboard access for all controls
+# (e.g. enable Tab in modal dialogs)
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+
+# Show language menu in the top right corner of the boot screen
+sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
+
+###############################################################################
+# Finder                                                                      #
+###############################################################################
+
+# Show icons for hard drives, servers, and removable media on the desktop
+defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
+defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
+defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
+defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
+
+# Finder: show all filename extensions
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+# Finder: show status bar
+defaults write com.apple.finder ShowStatusBar -bool true
+
+# Finder: show path bar
+defaults write com.apple.finder ShowPathbar -bool true
+
+# Keep folders on top when sorting by name
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+
+# Disable the warning when changing a file extension
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+# Avoid creating .DS_Store files on network or USB volumes
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+# Disable disk image verification
+defaults write com.apple.frameworks.diskimages skip-verify -bool true
+defaults write com.apple.frameworks.diskimages skip-verify-locked -bool true
+defaults write com.apple.frameworks.diskimages skip-verify-remote -bool true
+
+# Disable the warning before emptying the Trash
+defaults write com.apple.finder WarnOnEmptyTrash -bool false
+
+# Show the /Volumes folder
+sudo chflags nohidden /Volumes
+
+###############################################################################
+# Dock, Dashboard, and hot corners                                            #
+###############################################################################
+
+# Set the icon size of Dock items to 26 pixels
+defaults write com.apple.dock tilesize -int 26
+
+
+###############################################################################
+# Photos                                                                      #
+###############################################################################
+
+# Prevent Photos from opening automatically when devices are plugged in
+defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
+
+
+###############################################################################
+# Default document and URL handlers                                           #
+###############################################################################
+
+# Setup what apps should handle which filetypesm see more here:
+# https://developer.apple.com/library/content/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html
+
+# Text of unspecified encoding, with no markup. Equivalent to the MIME type text/plain
+duti -s com.sublimetext.3 public.plain-text viewer
+duti -s com.sublimetext.3 public.plain-text editor
+
+# HTML and XML inherits from 'public.text' so we special case them
+duti -s com.sublimetext.3 public.html viewer
+duti -s com.sublimetext.3 public.html editor
+duti -s com.sublimetext.3 public.xml viewer
+duti -s com.sublimetext.3 public.xml editor
+
+# Base type for movies (video with optional audio or other tracks).
+duti -s org.videolan.vlc public.movie viewer
+
+# Base type for images.
+duti -s cx.c3.Xee3 public.image viewer
+
+###############################################################################
+# Kill affected applications                                                  #
+###############################################################################
+
+for app in "cfprefsd" \
+    "Dock" \
+    "Finder" \
+    "Photos" \
+    "SystemUIServer" \
+    "Terminal"; do
+    killall "${app}" &> /dev/null
+done
+echo "Done. Note that some of these changes require a logout/restart to take effect."
+

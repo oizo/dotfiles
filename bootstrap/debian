@@ -1,0 +1,188 @@
+#!/usr/bin/env bash
+
+###############################################################################
+# Script Initialization                                                       #
+###############################################################################
+
+# Detect DISTRIBUTION "Ubuntu", "LinuxMint" e.t.c.
+DISTRIBUTION=$(lsb_release -si)
+# Detect architecture "32" or "64"
+ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
+# Set an architecture boolean
+X64=$(( ${ARCH} == "64" ))
+
+# Simple function for downloading and installing a deb package
+function download_and_install() {
+    # Download the artifact
+    wget -O pkg.deb $1
+    # Install the package
+    sudo dpkg -i pkg.deb
+    # Resolve dependencies
+    sudo apt-get -f install
+    # Remove the artifact
+    rm pkg.deb
+}
+
+###############################################################################
+# Install regulare packages and PPAs                                         #
+###############################################################################
+
+# Ensure that we have the necessary tools for setting up new PPAs
+sudo apt-get install -y software-properties-common
+
+# Adding PPAs
+sudo add-apt-repository -y ppa:webupd8team/sublime-text-3
+sudo add-apt-repository -y ppa:mmk2410/intellij-idea
+# Skype private PPA
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0DF731E45CE24F27EEEB1450EFDC8610341D9410
+echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
+
+# Auto accept the mscorefonts eula (during apt-get installation)
+echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+
+# Update the package list
+sudo apt-get update
+
+# List of apt packages to get
+PACKAGES=(
+    ffmpeg
+    git
+    git-lfs
+    gnupg
+    imagemagick
+    jq
+    markdown
+    npm
+    python
+    python3
+    python-pip
+    python-dev
+    build-essential
+    ruby
+    rubygems-integration
+    vim
+    openssh-client
+    openssh-server
+    synaptic
+    whois
+    rar
+    htop
+    curl
+    geeqie
+    chromium-browser
+    openjdk-8-jdk
+    openjdk-8-jre
+    firefox
+    vlc
+    gimp
+    filezilla
+    keepassx
+    qbittorrent
+    virtualbox
+    virtualbox-qt
+    virtualbox-guest-additions-iso
+    sublime-text-installer
+    intellij-idea-community
+    spotify-client
+)
+
+echo "Append distribution specific apt packages"
+if [[ ${DISTRIBUTION} == "Ubuntu" ]]; then
+    UBUNTU_PACKAGES=(
+        nautilus-dropbox
+        ubuntu-restricted-extras
+    )
+    PACKAGES=("${PACKAGES[@]}" "${UBUNTU_PACKAGES[@]}")
+elif [[ ${DISTRIBUTION} == "LinuxMint" ]]; then
+    MINT_PACKAGES=(
+        ia32-libs
+        nemo-dropbox
+    )
+    PACKAGES=("${PACKAGES[@]}" "${MINT_PACKAGES[@]}")
+	common="$common $linuxmint"
+fi
+
+echo "Installing packages... ${PACKAGES[@]}"
+sudo apt-get install -y ${PACKAGES[@]}
+
+echo "Cleaning up..."
+sudo apt-get clean
+
+###############################################################################
+# Install regulare packages and PPAs                                         #
+###############################################################################
+
+# GitKraken
+download_and_install 'https://release.gitkraken.com/linux/gitkraken-amd64.deb'
+
+# TeamViewer
+if [ $X64 ]; then
+    download_and_install 'https://download.teamviewer.com/download/linux/teamviewer_amd64.deb'
+else
+    download_and_install 'https://download.teamviewer.com/download/linux/teamviewer_i386.deb'
+fi
+
+# FileBot
+if [ $X64 ]; then
+    download_and_install 'http://filebot.sourceforge.net/download.php?type=deb&arch=amd64'
+else
+    download_and_install 'http://filebot.sourceforge.net/download.php?type=deb&arch=i386'
+fi
+    
+###############################################################################
+# Python packages                                                             #
+###############################################################################
+
+# Ensure that pip is available 
+yes | sudo pip install --upgrade pip 
+yes | sudo pip install --upgrade virtualenv 
+
+PYTHON_PACKAGES=(
+    ipython
+    virtualenv
+    virtualenvwrapper
+    Pillow
+)
+echo "Installing Python packages... ${PYTHON_PACKAGES[@]}"
+yes | sudo pip install ${PYTHON_PACKAGES[@]}
+
+
+echo "Applying debian system preferences"
+
+# Ask for the administrator password upfront
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+###############################################################################
+# General UI/UX                                                               #
+###############################################################################
+
+###############################################################################
+# Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
+###############################################################################
+
+###############################################################################
+# Android                                                                     #
+###############################################################################
+
+# Device udev rules
+sudo curl --create-dirs -L -o /etc/udev/rules.d/51-android.rules -O -L https://raw.githubusercontent.com/snowdream/51-android/master/51-android.rules
+sudo chmod a+r /etc/udev/rules.d/51-android.rules
+sudo service udev restart
+
+###############################################################################
+# Dock, Dashboard, and hot corners                                            #
+###############################################################################
+
+###############################################################################
+# Photos                                                                      #
+###############################################################################
+
+###############################################################################
+# Kill affected applications                                                  #
+###############################################################################
+
+echo "Done. Note that some of these changes require a logout/restart to take effect."
+

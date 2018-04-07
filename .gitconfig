@@ -1,0 +1,12 @@
+[user]
+	email = dkhvam@gmail.com
+	name = Danny Hvam
+[core]
+	autocrlf = input
+	trustctime = false
+[color]
+	ui = true
+	branch = true
+	diff = true
+	interactive = true
+	status = true
