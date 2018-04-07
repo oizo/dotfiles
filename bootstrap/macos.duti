@@ -34,21 +34,11 @@ org.videolan.vlc .avi all
 org.videolan.vlc .mpg all
 org.videolan.vlc .mpeg all
 org.videolan.vlc .mp4 all
-org.videolan.vlc .3gp all
-org.videolan.vlc .3gpp all
-org.videolan.vlc .3g2 all
-org.videolan.vlc .3gp2 all
 
 # Base type for images.
-cx.c3.Xee3 public.image viewer
+cx.c3.Xee3 public.image all
 cx.c3.Xee3 .jpg all
 cx.c3.Xee3 .jpeg all
 cx.c3.Xee3 .png all
 cx.c3.Xee3 .bmp all
 cx.c3.Xee3 .gif all
-org.gnome.gimp public.image editor
-org.gnome.gimp .jpg editor
-org.gnome.gimp .jpeg editor
-org.gnome.gimp .png editor
-org.gnome.gimp .bmp editor
-org.gnome.gimp .gif editor
