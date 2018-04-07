@@ -24,12 +24,12 @@ function doIt() {
             DISTRIBUTION=`lsb_release -si`
             case $DISTRIBUTION in
                 Ubuntu|LinuxMint)
-                    source ./bootstrap/debian
+                    source ./bootstrap/debian;;
                 *)
-                    echo "${DISTRIBUTION} is unsupported" >&2
+                    echo "${DISTRIBUTION} is unsupported" >&2;;
             esac;;
         *)
-            echo "${OS_NAME} is unsupported" >&2
+            echo "${OS_NAME} is unsupported" >&2;;
     esac
 }
 
