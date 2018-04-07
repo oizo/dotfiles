@@ -216,24 +216,7 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 # Default document and URL handlers                                           #
 ###############################################################################
 
-# Setup what apps should handle which filetypesm see more here:
-# https://developer.apple.com/library/content/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html
-
-# Text of unspecified encoding, with no markup. Equivalent to the MIME type text/plain
-duti -s com.sublimetext.3 public.plain-text viewer
-duti -s com.sublimetext.3 public.plain-text editor
-
-# HTML and XML inherits from 'public.text' so we special case them
-duti -s com.sublimetext.3 public.html viewer
-duti -s com.sublimetext.3 public.html editor
-duti -s com.sublimetext.3 public.xml viewer
-duti -s com.sublimetext.3 public.xml editor
-
-# Base type for movies (video with optional audio or other tracks).
-duti -s org.videolan.vlc public.movie viewer
-
-# Base type for images.
-duti -s cx.c3.Xee3 public.image viewer
+duti "$(dirname "${BASH_SOURCE}")/macos.duti"
 
 ###############################################################################
 # Kill affected applications                                                  #
