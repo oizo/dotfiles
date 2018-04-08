@@ -145,6 +145,11 @@ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 # Disable Resume system-wide
 defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
 
+# Disable all guest access
+defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool false
+defaults write /Library/Preferences/com.apple.AppleFileServer guestAccess -bool false
+defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server AllowGuestAccess -bool false
+
 ###############################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
 ###############################################################################
