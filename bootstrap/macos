@@ -156,6 +156,9 @@ defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 # Show language menu in the top right corner of the boot screen
 sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
 
+# Set the FN button to the original state, making F keys function as they used to in the good old days
+defaults write -g com.apple.keyboard.fnState -bool true
+
 ###############################################################################
 # Finder                                                                      #
 ###############################################################################
