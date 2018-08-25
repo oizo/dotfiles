@@ -38,55 +38,47 @@ fi;
 # Remove outdated versions from the cellar.
 brew cleanup
 
-PACKAGES=(
-    ffmpeg
-    gettext
-    gnupg
-    dex2jar
-    imagemagick
-    jq
-    markdown
-    npm
-    python
-    python3
-    vim
-    wget
-    openssh
-)
-
 echo "Installing packages..."
-brew install ${PACKAGES[@]}
+brew install ffmpeg
+brew install gettext
+brew install gnupg
+brew install dex2jar
+brew install imagemagick
+brew install jq
+brew install markdown
+brew install npm
+brew install python
+brew install python3
+brew install vim
+brew install wget
+brew install openssh
 
 echo "Cleaning up..."
 brew cleanup
 
-CASKS=(
-    dropbox
-    firefox
-    libreoffice
-    flux
-    google-chrome
-    iterm2
-    macvim
-    skype
-    slack
-    spectacle
-    virtualbox
-    vlc
-    gimp
-    filezilla
-    keepassx
-    xee
-    tvrenamer
-    intellij-idea-ce
-    qbittorrent
-    virtualbox
-    virtualbox-extension-pack
-    gitkraken
-)
-
 echo "Installing cask apps..."
-brew cask install ${CASKS[@]}
+brew cask install dropbox
+brew cask install firefox
+brew cask install libreoffice
+brew cask install flux
+brew cask install google-chrome
+brew cask install iterm2
+brew cask install macvim
+brew cask install skype
+brew cask install slack
+brew cask install spectacle
+brew cask install vlc
+brew cask install gimp
+brew cask install filezilla
+brew cask install keepassx
+brew cask install xee
+brew cask install tvrenamer
+brew cask install intellij-idea-ce
+brew cask install qbittorrent
+brew cask install virtualbox
+brew cask install virtualbox-extension-pack
+brew cask install gitkraken
+
 
 echo "Installing Python packages..."
 PYTHON_PACKAGES=(
