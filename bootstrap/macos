@@ -172,10 +172,10 @@ defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
 # Finder: show all filename extensions
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
-# Finder: show status bar
+# Finder: show options
 defaults write com.apple.finder ShowStatusBar -bool true
-
-# Finder: show path bar
+defaults write com.apple.finder ShowSidebar -bool true
+defaults write com.apple.finder ShowTabView -bool true
 defaults write com.apple.finder ShowPathbar -bool true
 
 # Keep folders on top when sorting by name
