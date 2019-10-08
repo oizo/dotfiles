@@ -12,13 +12,22 @@ if [[ $- != *i* ]] ; then
     return
 fi
 
-# Android development
-tmp="${HOME}/android-sdk-macos"
-if [ -d "${tmp}" ]; then
-  export ANDROID_HOME=${tmp}
-  export PATH=$PATH:$ANDROID_HOME/tools
-  export PATH=$PATH:$ANDROID_HOME/platform-tools
-fi
+# Android development tools
+# This is a function call, so we can use local variables
+android_dev () {
+	local tmp="${HOME}/android-sdk-macos"
+	if [ -d "${tmp}" ]; then
+	  export ANDROID_HOME=${tmp}
+	  export PATH=$PATH:$ANDROID_HOME/tools
+	  export PATH=$PATH:$ANDROID_HOME/platform-tools
+	  local build_tools_dir=${ANDROID_HOME}/build-tools
+	  local build_tools_latest=$(cd $build_tools_dir; ls -td -- */ | head -n 1 | cut -d'/' -f1)
+	  export PATH=$PATH:${build_tools_dir}/${build_tools_latest}
+	fi  
+}
+
+# Apply development tools
+android_dev
 
 export USER_HOME=$HOME
 export GRADLE_USER_HOME=$USER_HOME/.gradle
