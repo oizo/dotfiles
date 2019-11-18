@@ -63,9 +63,6 @@ brew cask install libreoffice
 brew cask install flux
 brew cask install google-chrome
 brew cask install iterm2
-brew cask install macvim
-brew cask install skype
-brew cask install slack
 brew cask install spectacle
 brew cask install vlc
 brew cask install gimp
@@ -73,11 +70,8 @@ brew cask install filezilla
 brew cask install keepassx
 brew cask install xee
 brew cask install tvrenamer
-brew cask install intellij-idea-ce
-brew cask install qbittorrent
 brew cask install virtualbox
 brew cask install virtualbox-extension-pack
-brew cask install gitkraken
 
 
 echo "Installing Python packages..."
