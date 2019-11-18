@@ -72,6 +72,7 @@ brew cask install xee
 brew cask install tvrenamer
 brew cask install virtualbox
 brew cask install virtualbox-extension-pack
+brew cask install sublime-text
 
 
 echo "Installing Python packages..."
