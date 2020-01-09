@@ -4,7 +4,7 @@ cd "$(dirname "${BASH_SOURCE}")";
 
 function doIt() {
     array=(
-        .aliases
+        .bash_aliases
         .bash_profile
         .bashrc
         .gitconfig
