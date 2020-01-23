@@ -55,7 +55,7 @@ export USER_HOME=$HOME
 export GRADLE_USER_HOME=$USER_HOME/.gradle
 
 OS_NAME=`uname -s`
-DISTRIBUTION="$OS_NAME"
+DISTRIBUTION="${OS_NAME}"
 
 case $OS_NAME in
     Darwin)
