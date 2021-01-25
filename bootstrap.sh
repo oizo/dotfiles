@@ -23,7 +23,7 @@ function doIt() {
         Linux)
             DISTRIBUTION=`lsb_release -si`
             case $DISTRIBUTION in
-                Ubuntu|LinuxMint)
+                Ubuntu|LinuxMint|Linuxmint)
                     source ./bootstrap/debian;;
                 *)
                     echo "${DISTRIBUTION} is unsupported" >&2;;

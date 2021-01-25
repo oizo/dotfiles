@@ -68,7 +68,7 @@ case $OS_NAME in
         DISTRIBUTION=`lsb_release -si`
         echo "Applying configuration for ${OS_NAME} (${DISTRIBUTION})"
         case $DISTRIBUTION in
-            Ubuntu|LinuxMint)
+            Ubuntu|LinuxMint|Linuxmint)
                 if [ -d "/snap/bin" ]; then
                     export PATH=$PATH:"/snap/bin"
                 fi
