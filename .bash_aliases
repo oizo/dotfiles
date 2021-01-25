@@ -38,9 +38,21 @@ function xmodmap-setup-dk-keys() {
     fi
 }
 
+function vmware-sign-drivers() {
+    echo "Failed to load vmmon kernel module - https://kb.vmware.com/s/article/2146460"
+    mkdir ~/vmnet-fix
+    cd ~/vmnet-fix
+    sudo vmware-modconfig --console --install-all 
+    openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36500 -subj "/CN=VMware/"
+    sudo /usr/src/linux-headers-`uname -r`/scripts/sign-file sha256 ./MOK.priv ./MOK.der $(modinfo -n vmmon)
+    sudo /usr/src/linux-headers-`uname -r`/scripts/sign-file sha256 ./MOK.priv ./MOK.der $(modinfo -n vmnet)
+    sudo mokutil --import MOK.der
+    cd $HOME
+    echo "Reboot your machine. Follow the instructions to complete the enrollment from the UEFI console."
+}
+
 case $OS_NAME in
     Darwin)
-        echo "alias darvin"
         # Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
         alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup'
 
