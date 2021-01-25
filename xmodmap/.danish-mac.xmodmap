@@ -1,0 +1,12 @@
+! Use caps-lock to write æøå using the keys ao' on a keyboard with US layout
+! this is similare to a macOS keyboard, where the same can be achieved using opt
+
+clear lock
+
+!Maps Caps-Lock as Level3 Shift
+keycode 66 = Mode_switch ISO_Level3_Shift
+
+!Danish alpha chars æøå on keys ao'
+keycode 48 = apostrophe quotedbl ae AE
+keycode 32 = o O oslash Ooblique
+keycode 38 = a A aring Aring

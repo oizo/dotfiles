@@ -31,6 +31,13 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+function xmodmap-setup-dk-keys() {
+    XMOD_FILE=".danish-mac.xmodmap"
+    if [ -f $XMOD_FILE ]; then
+        xmodmap $XMOD_FILE
+    fi
+}
+
 case $OS_NAME in
     Darwin)
         echo "alias darvin"
@@ -50,6 +57,7 @@ case $OS_NAME in
         ;;
 
     Linux)
+        alias dkkeys=xmodmap-setup-dk-keys
         # Add an "alert" alias for long running commands.  Use like so:
         #   sleep 10; alert
         alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'

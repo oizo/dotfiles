@@ -8,6 +8,7 @@ function doIt() {
         .bash_profile
         .bashrc
         .gitconfig
+        xmodmap/.danish-mac.xmodmap
     )
     for i in "${array[@]}"; do
         echo "Doing this ${i}"
