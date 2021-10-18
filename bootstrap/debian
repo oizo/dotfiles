@@ -76,6 +76,7 @@ PACKAGES=(
     virtualbox
     virtualbox-qt
     virtualbox-guest-additions-iso
+    git-cola
 )
 
 echo "Append distribution specific apt packages"
@@ -119,9 +120,6 @@ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0DF731E45
 echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
 sudo apt-get update
 sudo apt-get install -y spotify-client
-
-# GitKraken
-download_and_install 'https://release.gitkraken.com/linux/gitkraken-amd64.deb'
 
 # TeamViewer
 if [ $X64 ]; then
