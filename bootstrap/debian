@@ -48,8 +48,8 @@ PACKAGES=(
     npm
     python
     python3
-    python-pip
-    python-dev
+    python3-pip
+    python3-dev
     build-essential
     ruby
     rubygems-integration
