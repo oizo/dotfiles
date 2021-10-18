@@ -71,7 +71,7 @@ PACKAGES=(
     vlc
     gimp
     filezilla
-    keepassx
+    keepassxc
     qbittorrent
     virtualbox
     virtualbox-qt
