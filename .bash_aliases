@@ -8,9 +8,6 @@ alias ....="cd ../../.."
 # Recursively delete `.DS_Store` files
 alias ds_store_cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 
-# ROT13-encode text. Works for decoding, too! ;)
-alias rot13='tr a-zA-Z n-za-mN-ZA-M'
-
 # URL-encode strings
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 

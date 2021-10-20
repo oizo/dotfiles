@@ -11,7 +11,7 @@ function doIt() {
         .xprofile
     )
     for i in "${array[@]}"; do
-        echo "Doing this ${i}"
+        echo "Moving: ${i}"
         yes | cp -rf $i ~/
         sudo chmod a+x ~/$i
     done

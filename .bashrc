@@ -70,6 +70,7 @@ case $OS_NAME in
         case $DISTRIBUTION in
             Ubuntu|LinuxMint|Linuxmint)
                 if [ -d "/snap/bin" ]; then
+                    # I shouldn't be using snap
                     export PATH=$PATH:"/snap/bin"
                 fi
                 ;;
