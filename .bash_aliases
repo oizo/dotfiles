@@ -41,6 +41,13 @@ function vmware-sign-drivers() {
     echo "Reboot your machine. Follow the instructions to complete the enrollment from the UEFI console."
 }
 
+function xmodmap-danish-mac() {
+    XMOD_FILE=".danish-mac.xmodmap"
+    if [ -f $XMOD_FILE ]; then
+        xmodmap $XMOD_FILE
+    fi
+}
+
 case $OS_NAME in
     Darwin)
         # Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
@@ -59,6 +66,7 @@ case $OS_NAME in
         ;;
 
     Linux)
+        alias dkxmodmap=xmodmap-danish-mac
         # Add an "alert" alias for long running commands.  Use like so:
         #   sleep 10; alert
         alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
