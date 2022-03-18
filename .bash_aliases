@@ -41,13 +41,6 @@ function vmware-sign-drivers() {
     echo "Reboot your machine. Follow the instructions to complete the enrollment from the UEFI console."
 }
 
-function xmodmap-danish-mac() {
-    XMOD_FILE=".danish-mac.xmodmap"
-    if [ -f $XMOD_FILE ]; then
-        xmodmap $XMOD_FILE
-    fi
-}
-
 case $OS_NAME in
     Darwin)
         # Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
@@ -66,7 +59,7 @@ case $OS_NAME in
         ;;
 
     Linux)
-        alias dkxmodmap=xmodmap-danish-mac
+        alias dkxmodmap=.xmodmap-setup
         if [ -x "$(command -v openfortivpn)" ]; then
           alias fiftytwo_vpn="sudo bash -c 'openfortivpn -c $HOME/.fiftytwo_forti_config &'"
         fi
