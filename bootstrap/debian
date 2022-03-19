@@ -134,7 +134,20 @@ if [ $X64 ]; then
 else
     download_and_install 'http://filebot.sourceforge.net/download.php?type=deb&arch=i386'
 fi
-    
+
+# Signal
+wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
+cat signal-desktop-keyring.gpg | sudo tee -a /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
+echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' | sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+sudo apt update && sudo apt install -y signal-desktop
+
+# Telegram
+wget -O telegram.tar.xz https://telegram.org/dl/desktop/linux
+tar xf telegram.tar.xz
+sudo mv Telegram /opt/telegram
+sudo ln -sf /opt/telegram/Telegram /usr/bin/telegram
+rm telegram.tar.xz
+
 ###############################################################################
 # Python packages                                                             #
 ###############################################################################
