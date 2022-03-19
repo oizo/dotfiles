@@ -10,6 +10,7 @@ function doIt() {
         .gitconfig
         xmodmap/.danish-mac.xmodmap
         .xprofile
+        .xmodmap-setup
     )
     for i in "${array[@]}"; do
         echo "Moving: ${i}"
