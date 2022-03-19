@@ -41,7 +41,7 @@ if ! shopt -oq posix; then
 fi
 
 # Android development tools
-export ANDROID_HOME="${HOME}/android-sdk"
+export ANDROID_HOME="${HOME}/Android/Sdk"
 if [ -d "${ANDROID_HOME}" ]; then
     export PATH=$PATH:$ANDROID_HOME/tools
     export PATH=$PATH:$ANDROID_HOME/platform-tools
