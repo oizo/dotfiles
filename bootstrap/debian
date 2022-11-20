@@ -197,4 +197,6 @@ sudo service udev restart
 # Kill affected applications                                                  #
 ###############################################################################
 
+sudo apt-get autoremove -y
+
 echo "Done. Note that some of these changes require a logout/restart to take effect."
