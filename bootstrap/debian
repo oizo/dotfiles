@@ -46,10 +46,11 @@ PACKAGES=(
     jq
     markdown
     npm
-    python
+    python2
+    python2-dev
     python3
-    python3-pip
     python3-dev
+    python-is-python3
     build-essential
     ruby
     rubygems-integration
@@ -147,24 +148,6 @@ tar xf telegram.tar.xz
 sudo mv Telegram /opt/telegram
 sudo ln -sf /opt/telegram/Telegram /usr/bin/telegram
 rm telegram.tar.xz
-
-###############################################################################
-# Python packages                                                             #
-###############################################################################
-
-# Ensure that pip is available 
-yes | sudo pip install --upgrade pip 
-yes | sudo pip install --upgrade virtualenv 
-
-PYTHON_PACKAGES=(
-    ipython
-    virtualenv
-    virtualenvwrapper
-    Pillow
-)
-echo "Installing Python packages... ${PYTHON_PACKAGES[@]}"
-yes | sudo pip install ${PYTHON_PACKAGES[@]}
-
 
 echo "Applying debian system preferences"
 
