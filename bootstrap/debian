@@ -16,9 +16,9 @@ function download_and_install() {
     # Download the artifact
     wget -O pkg.deb $1
     # Install the package
-    sudo dpkg -i pkg.deb
+    yes | sudo dpkg -i pkg.deb
     # Resolve dependencies
-    sudo apt-get -f install
+    sudo apt-get -f install -y
     # Remove the artifact
     rm pkg.deb
 }
