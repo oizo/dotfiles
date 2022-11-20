@@ -106,43 +106,43 @@ sudo apt-get clean
 # Install regulare packages and PPAs                                         #
 ###############################################################################
 
-# Sublime text
+echo "Installing Sublime text..."
 sudo add-apt-repository -y ppa:webupd8team/sublime-text-3
 sudo apt-get update
 sudo apt-get install -y sublime-text
 
-# Intellij
+echo "Installing Intellij..."
 sudo add-apt-repository -y ppa:mmk2410/intellij-idea
 sudo apt-get update
 sudo apt-get install -y intellij-idea-community
 
-# Spotify private PPA
+echo "Installing Spotify private PPA..."
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0DF731E45CE24F27EEEB1450EFDC8610341D9410
 echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
 sudo apt-get update
 sudo apt-get install -y spotify-client
 
-# TeamViewer
+echo "Installing TeamViewer..."
 if [ $X64 ]; then
     download_and_install 'https://download.teamviewer.com/download/linux/teamviewer_amd64.deb'
 else
     download_and_install 'https://download.teamviewer.com/download/linux/teamviewer_i386.deb'
 fi
 
-# FileBot
+echo "Installing FileBot..."
 if [ $X64 ]; then
     download_and_install 'http://filebot.sourceforge.net/download.php?type=deb&arch=amd64'
 else
     download_and_install 'http://filebot.sourceforge.net/download.php?type=deb&arch=i386'
 fi
 
-# Signal
+echo "Installing Signal..."
 wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
 cat signal-desktop-keyring.gpg | sudo tee -a /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
 echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' | sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
 sudo apt update && sudo apt install -y signal-desktop
 
-# Telegram
+echo "Installing Telegram..."
 wget -O telegram.tar.xz https://telegram.org/dl/desktop/linux
 tar xf telegram.tar.xz
 sudo mv Telegram /opt/telegram
