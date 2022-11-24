@@ -59,7 +59,7 @@ case $OS_NAME in
         ;;
 
     Linux)
-        alias dkxmodmap=.xmodmap-setup
+        alias dkxmodmap="bash .xmodmap-setup"
         if [ -x "$(command -v openfortivpn)" ]; then
           alias fiftytwo_vpn="sudo bash -c 'openfortivpn -c $HOME/.fiftytwo_forti_config &'"
         fi
