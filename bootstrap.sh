@@ -2,7 +2,7 @@
 
 cd "$(dirname "${BASH_SOURCE}")";
 
-function doIt() {
+function copyDotfiles() {
     array=(
         .bash_aliases
         .bash_profile
@@ -18,8 +18,18 @@ function doIt() {
         sudo chmod a+x ~/$i
     done
 	source ~/.bash_profile
+}
 
-	OS_NAME=`uname -s`
+function bootstrap() {
+    # Check we're not running as root, to ensure we place dotfiles in the correct home dir
+    if [[ "$EUID" -eq 0 ]]; then
+        echo "Please do not run as root. The script will ask for elevated privileges when needed.";
+        exit;
+    fi;
+    copyDotfiles;
+
+    # Run distribution specific bootstrap process
+    OS_NAME=`uname -s`
     case $OS_NAME in
         Darwin)
             source ./bootstrap/macos;;
@@ -37,14 +47,15 @@ function doIt() {
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
-	doIt;
+    bootstrap;
 else
 	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
 	echo "";
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		doIt;
+        bootstrap;
 	fi;
 fi;
-unset doIt;
+unset copyDotfiles;
+unset bootstrap;
 
 
