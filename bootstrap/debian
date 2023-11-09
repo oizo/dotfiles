@@ -77,6 +77,8 @@ PACKAGES=(
     virtualbox-qt
     virtualbox-guest-additions-iso
     git-cola
+    unrar-free
+    p7zip-full
     xdotool
 )
 
