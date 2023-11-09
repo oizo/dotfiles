@@ -12,20 +12,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-# Sign the linux kernel drivers so vmware can load vmmon kernel module.
-function vmware-sign-drivers() {
-    echo "Failed to load vmmon kernel module - https://kb.vmware.com/s/article/2146460"
-    mkdir ~/vmnet-fix
-    cd ~/vmnet-fix
-    sudo vmware-modconfig --console --install-all 
-    openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36500 -subj "/CN=VMware/"
-    sudo /usr/src/linux-headers-`uname -r`/scripts/sign-file sha256 ./MOK.priv ./MOK.der $(modinfo -n vmmon)
-    sudo /usr/src/linux-headers-`uname -r`/scripts/sign-file sha256 ./MOK.priv ./MOK.der $(modinfo -n vmnet)
-    sudo mokutil --import MOK.der
-    cd $HOME
-    echo "Reboot your machine. Follow the instructions to complete the enrollment from the UEFI console."
-}
-
 # 
 function whatismyip() {
   curl -s https://api.ipify.org
@@ -73,8 +59,8 @@ case $OS_NAME in
         ;;
 
     Linux)
-        if [ -x "$(command -v openfortivpn)" ]; then
-          alias fiftytwo_vpn="sudo bash -c 'openfortivpn -c $HOME/.fiftytwo_forti_config &'"
+        if [ -f ".bash_fiftytwo" ];
+            source .bash_fiftytwo
         fi
         # Add an "alert" alias for long running commands.  Use like so:
         #   sleep 10; alert
