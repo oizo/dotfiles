@@ -21,9 +21,14 @@ symlinkBin() {
     done
 }
 
+moveDotConfig {
+    echo "I'm still missing!"
+}
+
 bootstrap() {
     symlinkDotfiles
     symlinkBin
+    moveDotConfig
     source ~/.bash_profile
 
     # Run distribution specific bootstrap process

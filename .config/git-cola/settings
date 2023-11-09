@@ -1,0 +1,30 @@
+{
+    "bookmarks": [],
+    "gui_state": {
+        "startupdialog": {
+            "geometry": "AdnQywADAAAAAAHgAAAA6gAABZ8AAAMpAAAB4AAAAQ4AAAWfAAADKQAAAAAAAAAAB4AAAAHgAAABDgAABZ8AAAMp",
+            "width": 960,
+            "height": 540,
+            "x": 480,
+            "y": 234
+        },
+        "mainview": {
+            "geometry": "AdnQywADAAAAAAAAAAAAIAAAB38AAAQ3AAAAMgAAAJoAAASPAAADTgAAAAACAAAAB4AAAAAAAAAARAAAB38AAAQ3",
+            "width": 1920,
+            "height": 1012,
+            "x": 0,
+            "y": 32,
+            "lock_layout": false,
+            "windowstate": "AAAA/wAAAAL9AAAAAgAAAAIAAAeAAAAD2fwBAAAAA/wAAAAAAAABNQAAAL8A/////AIAAAAC+wAAABAAQgByAGEAbgBjAGgAZQBzAQAAABsAAAJtAAAAagD////7AAAAFABTAHUAYgBtAG8AZAB1AGwAZQBzAQAAAosAAAFpAAAAagD////8AAABOAAABkgAAAD/AP////wBAAAAAvsAAAAIAEQAaQBmAGYBAAABOAAAA+UAAABiAP////wAAAUgAAACYAAAAJoA/////AIAAAAC+wAAAAwAUwB0AGEAdAB1AHMBAAAAGwAAAj0AAABqAP////sAAAAMAEMAbwBtAG0AaQB0AQAAAlsAAAGZAAAAYAD////8AAAFgAAAAgAAAAAAAP////r/////AQAAAAL7AAAAEgBGAGEAdgBvAHIAaQB0AGUAcwAAAAAA/////wAAAL8A////+wAAAAwAUgBlAGMAZQBuAHQAAAAAAP////8AAACcAP///wAAAAMAAAeAAAAB6/wBAAAAAfwAAAAA/////wAAAAAA////+v////8BAAAAAvsAAAAOAEEAYwB0AGkAbwBuAHMAAAAAAP////8AAABjAP////sAAAAOAEMAbwBuAHMAbwBsAGUAAAAAAP////8AAABlAP///wAAB4AAAAAAAAAABAAAAAQAAAAIAAAACPwAAAAA",
+            "show_status_filter": false,
+            "toolbars": [],
+            "ref_sort": 0,
+            "show_diff_line_numbers": true,
+            "image_diff_mode": 0,
+            "image_zoom_mode": 0,
+            "word_wrap": true
+        }
+    },
+    "recent": [],
+    "copy_formats": []
+}
