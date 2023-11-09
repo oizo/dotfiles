@@ -2,3 +2,73 @@
 
 echo "I'm not done yet, don't run me!"
 exit 2
+
+# Update the package list
+sudo pamac upgrade -a
+
+# Ensure that we have the necessary tools for setting up new PPAs
+sudo pamac install --no-confirm base-devel
+
+# Auto accept the mscorefonts eula (during installation)
+echo "Extract fonts from win11 iso, and install ttf-ms-win11 instead of ttf-ms-fonts"
+
+PACMAN_PACKAGES=(
+    bash-completion
+    chromium
+    filezilla
+    geeqie
+    gimp
+    git
+    git-lfs
+    imagemagick
+    jdk8-openjdk
+    jdk11-openjdk
+    jq
+    jre8-openjdk
+    jre11-openjdk
+    keepassxc
+    npm
+    p7zip
+    signal-desktop
+    telegram-desktop
+    thunderbird
+    unrar
+    virtualbox
+    virtualbox-ext-vnc
+    virtualbox-guest-iso
+    vlc
+    whois
+    xdotool
+)
+echo "Installing packages from official repository..."
+sudo pamac install --no-confirm ${PACMAN_PACKAGES[@]}
+
+# List of apt packages to get
+AUR_PACKAGES=(
+    android-studio
+    dropbox
+    filebot
+    git-cola
+    google-chrome
+    intellij-idea-ce
+    nautilus-dropbox
+    spotify
+    sublime-text-4
+    synology-drive
+    teamviewer
+    ttf-ms-fonts
+    visual-studio-code-bin
+)
+echo "Installing packages from Arch User Repository (AUR)"
+sudo pamac build --no-confirm ${AUR_PACKAGES[@]}
+
+echo "Cleaning up..."
+sudo pacman -Scc
+sudo pacman -Qtdq | pacman -Rns -
+
+echo "Settingup udev rules"
+sudo curl --create-dirs -L -o /etc/udev/rules.d/51-android.rules -O -L https://raw.githubusercontent.com/snowdream/51-android/master/51-android.rules
+sudo chmod a+r /etc/udev/rules.d/51-android.rules
+sudo systemctl restart systemd-udevd
+
+echo "Done. Note that some of these changes require a logout/restart to take effect."
