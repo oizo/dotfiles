@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-cd "$(dirname "${BASH_SOURCE}")";
-
 symlinkDotfiles() {
     cd "dots"
     ln -sfn "$(pwd)/.bash_aliases" "${HOME}/.bash_aliases"
@@ -24,11 +22,6 @@ symlinkBin() {
 }
 
 bootstrap() {
-    # Check we're not running as root, to ensure we place dotfiles in the correct home dir
-    if [[ "$EUID" -eq 0 ]]; then
-        echo "Please do not run as root. The script will ask for elevated privileges when needed.";
-        exit;
-    fi;
     symlinkDotfiles
     symlinkBin
     source ~/.bash_profile
@@ -52,6 +45,15 @@ bootstrap() {
             echo "${os_name} is unsupported" >&2;;
     esac
 }
+
+# Check we're not running as root, to ensure we place dotfiles in the correct home dir
+if [[ "$EUID" -eq 0 ]]; then
+    echo "Please do not run as root. The script will ask for elevated privileges when needed.";
+    exit;
+fi;
+
+# Ensure we're in the git repo folder
+cd "$(dirname "${BASH_SOURCE}")";
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
     bootstrap;
