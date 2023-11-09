@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "I'm not done yet, don't run me!"
+exit 2
