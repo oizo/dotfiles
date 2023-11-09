@@ -12,8 +12,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-# 
-function whatismyip() {
+# Fetch and display the external IP address
+whatismyip() {
   curl -s https://api.ipify.org
 }
 
