@@ -22,7 +22,7 @@ symlinkBin() {
 }
 
 moveDotConfig {
-    echo "I'm still missing!"
+    echo "moveDotConfig is still missing!"
 }
 
 bootstrap() {
