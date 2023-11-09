@@ -2,31 +2,26 @@
 
 cd "$(dirname "${BASH_SOURCE}")";
 
-function copyDotfiles() {
-    array=(
-        .bash_aliases
-        .bash_profile
-        .bashrc
-        .gitconfig
-        xmodmap/.danish-mac.xmodmap
-        .xprofile
-        .xmodmap-setup
-    )
-    for i in "${array[@]}"; do
-        echo "Moving: ${i}"
-        yes | cp -rf $i ~/
-        sudo chmod a+x ~/$i
-    done
-	source ~/.bash_profile
+symlinkDotfiles() {
+    cd "dots"
+    ln -sfn "$(pwd)/.bash_aliases" "${HOME}/.bash_aliases"
+    ln -sfn "$(pwd)/.bash_profile" "${HOME}/.bash_profile"
+    ln -sfn "$(pwd)/.bashrc" "${HOME}/.bashrc"
+    ln -sfn "$(pwd)/.gitconfig" "${HOME}/.gitconfig"
+    ln -sfn "$(pwd)/.xmodmap/.danish-mac.xmodmap" "${HOME}/.Xmodmap"
+    ln -sfn "$(pwd)/.xprofile" "${HOME}/.xprofile"
+    ln -sfn "$(pwd)/.xinitrc" "${HOME}/.xinitrc"
+    cd ..
 }
 
-function bootstrap() {
+bootstrap() {
     # Check we're not running as root, to ensure we place dotfiles in the correct home dir
     if [[ "$EUID" -eq 0 ]]; then
         echo "Please do not run as root. The script will ask for elevated privileges when needed.";
         exit;
     fi;
-    copyDotfiles;
+    symlinkDotfiles
+    source ~/.bash_profile
 
     # Run distribution specific bootstrap process
     OS_NAME=`uname -s`
