@@ -34,10 +34,12 @@ function bootstrap() {
         Darwin)
             source ./bootstrap/macos;;
         Linux)
-            DISTRIBUTION=`lsb_release -si`
+            DISTRIBUTION=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
             case $DISTRIBUTION in
-                Ubuntu|LinuxMint|Linuxmint)
+                ubuntu|linuxmint)
                     source ./bootstrap/debian;;
+                manjarolinux)
+                    source ./bootstrap/arch;;
                 *)
                     echo "${DISTRIBUTION} is unsupported" >&2;;
             esac;;
