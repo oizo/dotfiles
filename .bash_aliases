@@ -1,21 +1,5 @@
 #!/bin/bash
 
-# Easier navigation: .., ..., ...., ....., ~ and -
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-
-# Recursively delete `.DS_Store` files
-alias ds_store_cleanup="find . -type f -name '*.DS_Store' -ls -delete"
-
-# URL-encode strings
-alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
-
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -28,6 +12,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+# Sign the linux kernel drivers so vmware can load vmmon kernel module.
 function vmware-sign-drivers() {
     echo "Failed to load vmmon kernel module - https://kb.vmware.com/s/article/2146460"
     mkdir ~/vmnet-fix
