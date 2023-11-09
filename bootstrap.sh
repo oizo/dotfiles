@@ -14,6 +14,15 @@ symlinkDotfiles() {
     cd ..
 }
 
+symlinkBin() {
+    target_dir="$HOME/bin"
+    mkdir -p "$target_dir"
+    for file in "bin"/*; do
+        filename=$(basename "$file")
+        ln -s "$file" "$target_dir/$filename"
+    done
+}
+
 bootstrap() {
     # Check we're not running as root, to ensure we place dotfiles in the correct home dir
     if [[ "$EUID" -eq 0 ]]; then
@@ -21,6 +30,7 @@ bootstrap() {
         exit;
     fi;
     symlinkDotfiles
+    symlinkBin
     source ~/.bash_profile
 
     # Run distribution specific bootstrap process
