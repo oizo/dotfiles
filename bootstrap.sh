@@ -34,22 +34,22 @@ bootstrap() {
     source ~/.bash_profile
 
     # Run distribution specific bootstrap process
-    OS_NAME=`uname -s`
-    case $OS_NAME in
+    os_name=`uname -s`
+    case $os_name in
         Darwin)
             source ./bootstrap/macos;;
         Linux)
-            DISTRIBUTION=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
-            case $DISTRIBUTION in
+            distribution=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
+            case $distribution in
                 ubuntu|linuxmint)
                     source ./bootstrap/debian;;
                 manjarolinux)
                     source ./bootstrap/arch;;
                 *)
-                    echo "${DISTRIBUTION} is unsupported" >&2;;
+                    echo "${distribution} is unsupported" >&2;;
             esac;;
         *)
-            echo "${OS_NAME} is unsupported" >&2;;
+            echo "${os_name} is unsupported" >&2;;
     esac
 }
 
@@ -62,7 +62,3 @@ else
         bootstrap;
 	fi;
 fi;
-unset copyDotfiles;
-unset bootstrap;
-
-
