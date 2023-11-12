@@ -1,0 +1,48 @@
+#!/usr/bin/env sh
+
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+if [ -f "$HOME/.aliases" ]; then
+    source "$HOME/.aliases"
+fi
+
+# Android development tools
+export ANDROID_HOME="${HOME}/Android/Sdk"
+if [ -d "${ANDROID_HOME}" ]; then
+    export PATH=$PATH:$ANDROID_HOME/tools
+    export PATH=$PATH:$ANDROID_HOME/platform-tools
+    build_tools_path=${ANDROID_HOME}/build-tools
+    build_tools_latest=$(cd $build_tools_path; ls -td -- */ | head -n 1 | cut -d'/' -f1)
+    export PATH=$PATH:${build_tools_path}/${build_tools_latest}
+fi
+
+export USER_HOME=$HOME
+export GRADLE_USER_HOME=$USER_HOME/.gradle
+
+case $OS in
+    Darwin)
+        log "Applying configuration for macOS"
+
+        if [ -f $(brew --prefix)/etc/bash_completion ]; then
+            source $(brew --prefix)/etc/bash_completion
+        fi
+        ;;
+    Linux)
+        # Source os-release to read $PRETTY_NAME
+        if [ -e "/etc/os-release" ]; then
+            source /etc/os-release
+        fi
+        log "Applying configuration for $PRETTY_NAME"
+        case $DISTRIBUTION in
+            ubuntu|linuxmint|manjarolinux)
+                log "No special treatment for $DISTRIBUTION";;
+            *)
+                logerr "Unsupported distribution: $DISTRIBUTION";;
+        esac;;
+    *)
+        logerr "Unsupported OS: $OS";;
+esac

@@ -1,5 +1,0 @@
-# Linux Mint
-# Running xmodmap from any of the regular startup scripts doesn't work,
-# you must run xmodmap with your configuration with a delay from .xprofile.
-# The duration of the delay might vary depending on your system.
-bash -c "sleep 5; xmodmap-init" &

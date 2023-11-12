@@ -4,12 +4,10 @@
 # Script Initialization                                                       #
 ###############################################################################
 
-# Detect DISTRIBUTION "Ubuntu", "LinuxMint" e.t.c.
-DISTRIBUTION=$(lsb_release -si)
 # Detect architecture "32" or "64"
 ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
 # Set an architecture boolean
-X64=$(( ${ARCH} == "64" ))
+IS_X64=$(( ${ARCH} == "64" ))
 
 # Simple function for downloading and installing a deb package
 function download_and_install() {
@@ -83,19 +81,18 @@ PACKAGES=(
 )
 
 echo "Append distribution specific apt packages"
-if [[ ${DISTRIBUTION} == "Ubuntu" ]]; then
+if [ $DISTRIBUTION == "ubuntu" ]; then
     UBUNTU_PACKAGES=(
         nautilus-dropbox
         ubuntu-restricted-extras
     )
     PACKAGES=("${PACKAGES[@]}" "${UBUNTU_PACKAGES[@]}")
-elif [[ ${DISTRIBUTION} == "LinuxMint" ]]; then
+elif [ $DISTRIBUTION == "linuxmint" ]; then
     MINT_PACKAGES=(
         ia32-libs
         nemo-dropbox
     )
     PACKAGES=("${PACKAGES[@]}" "${MINT_PACKAGES[@]}")
-	common="$common $linuxmint"
 fi
 
 echo "Installing packages... ${PACKAGES[@]}"
@@ -126,14 +123,14 @@ sudo apt-get update
 sudo apt-get install -y spotify-client
 
 echo "Installing TeamViewer..."
-if [ $X64 ]; then
+if [ $IS_X64 ]; then
     download_and_install 'https://download.teamviewer.com/download/linux/teamviewer_amd64.deb'
 else
     download_and_install 'https://download.teamviewer.com/download/linux/teamviewer_i386.deb'
 fi
 
 echo "Installing FileBot..."
-if [ $X64 ]; then
+if [ $IS_X64 ]; then
     download_and_install 'http://filebot.sourceforge.net/download.php?type=deb&arch=amd64'
 else
     download_and_install 'http://filebot.sourceforge.net/download.php?type=deb&arch=i386'

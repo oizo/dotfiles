@@ -1,11 +1,25 @@
-#!/bin/bash
+#!/bin/sh
+
+# Bash logging framework. Logging disabled by default.
+# Enable logs by setting LOGGING=true in your current shell.
+[ -z "${LOGGING+x}" ] && LOGGING=false
+log() { [ "$LOGGING" = true ] && echo "[DEBUG] $1"; }
+logerr() { echo "[ERROR] $1" >&2; }
+
+OS=$(uname -s)
+DISTRIBUTION="unknown"
+if command -v lsb_release > /dev/null; then
+    DISTRIBUTION=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
+elif [ -e "/etc/os-release" ]; then
+    source /etc/os-release
+    DISTRIBUTION="$ID"
+fi
+log "Detected: OS=${OS}, DISTRIBUTION=${DISTRIBUTION}"
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
 
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
@@ -19,8 +33,7 @@ whatismyip() {
 
 # ex - archive extractor
 # usage: ex <file>
-ex ()
-{
+ex () {
   if [ -f $1 ] ; then
     case $1 in
       *.tar.bz2)   tar xjf $1   ;;
@@ -41,7 +54,7 @@ ex ()
   fi
 }
 
-case $OS_NAME in
+case $OS in
     Darwin)
         # Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
         alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup'
@@ -59,10 +72,10 @@ case $OS_NAME in
         ;;
 
     Linux)
-        if [ -f ".bash_fiftytwo" ];
-            source .bash_fiftytwo
+        if [ -f ".fiftytwo" ]; then
+            source ".fiftytwo"
         fi
         ;;
     *)
-        echo "${OS_NAME} is unsupported" >&2;;
+        logerr "${OS} is unsupported";;
 esac

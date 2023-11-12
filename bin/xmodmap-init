@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Ensure that we turn capslog off if it was previously enabled
 # or else the user will be stuck WRITING LIKE THIS
@@ -7,9 +7,9 @@ if [ "$CAPSLOCK_STATE" == "on" ]; then
     xdotool key Caps_Lock
 fi
 
-XMOD_FILE=${1:-".Xmodmap"}
+XMOD_FILE=${1:-"$HOME/.xmodmap"}
 if [ -f $XMOD_FILE ]; then
     xmodmap $XMOD_FILE
 else
-    echo "File not found: $XMOD_FILE"
+    logerr "File not found: $XMOD_FILE"
 fi

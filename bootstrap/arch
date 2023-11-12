@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-echo "I'm not done yet, don't run me!"
-exit 2
-
 # Update the package list
 sudo pamac upgrade -a
 
@@ -13,7 +10,6 @@ sudo pamac install --no-confirm base-devel
 echo "Extract fonts from win11 iso, and install ttf-ms-win11 instead of ttf-ms-fonts"
 
 PACMAN_PACKAGES=(
-    bash-completion
     chromium
     filezilla
     geeqie
