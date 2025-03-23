@@ -116,12 +116,6 @@ sudo add-apt-repository -y ppa:mmk2410/intellij-idea
 sudo apt-get update
 sudo apt-get install -y intellij-idea-community
 
-echo "Installing Spotify private PPA..."
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0DF731E45CE24F27EEEB1450EFDC8610341D9410
-echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
-sudo apt-get update
-sudo apt-get install -y spotify-client
-
 echo "Installing TeamViewer..."
 if [ $IS_X64 ]; then
     download_and_install 'https://download.teamviewer.com/download/linux/teamviewer_amd64.deb'
