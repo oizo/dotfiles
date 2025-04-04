@@ -12,7 +12,7 @@ if [[ $- != *i* ]] ; then
     return
 fi
 
-if [ -d "$HOME/.sharedrc" ] ; then
+if [ -f "$HOME/.sharedrc" ] ; then
     source "$HOME/.sharedrc"
 fi
 

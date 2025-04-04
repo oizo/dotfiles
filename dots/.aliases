@@ -75,9 +75,6 @@ case $OS in
         if [ -f ".fiftytwo" ]; then
             source ".fiftytwo"
         fi
-        if [ -f ".demant" ]; then
-            source ".demant"
-        fi
         ;;
     *)
         logerr "${OS} is unsupported";;

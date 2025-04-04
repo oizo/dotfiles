@@ -7,7 +7,6 @@ symlinkDotfiles() {
     ln -sfn "$(pwd)/dots/.zshrc" "${HOME}/.zshrc"
     ln -sfn "$(pwd)/dots/.aliases" "${HOME}/.aliases"
     ln -sfn "$(pwd)/dots/.fiftytwo" "${HOME}/.fiftytwo"
-    ln -sfn "$(pwd)/dots/.demant" "${HOME}/.demant"
     ln -sfn "$(pwd)/dots/.gitconfig" "${HOME}/.gitconfig"
     ln -sfn "$(pwd)/dots/.danish-mac.xmodmap" "${HOME}/.xmodmap"
 }

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Ensure that we turn capslog off if it was previously enabled
 # or else the user will be stuck WRITING LIKE THIS
