@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Run xmodmap configuration for Danish keyboard layout (æøå)
+if [ -x "$HOME/bin/xmodmap-init" ]; then
+    "$HOME/bin/xmodmap-init"
+fi
