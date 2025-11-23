@@ -164,35 +164,15 @@ sudo apt install code -y
 # filezilla
 
 
-echo "Applying debian system preferences"
-
-###############################################################################
-# General UI/UX                                                               #
-###############################################################################
-
-###############################################################################
-# Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
-###############################################################################
-
-###############################################################################
-# Android                                                                     #
-###############################################################################
-
 # Device udev rules
 sudo curl --create-dirs -L -o /etc/udev/rules.d/51-android.rules https://raw.githubusercontent.com/snowdream/51-android/master/51-android.rules
 sudo chmod a+r /etc/udev/rules.d/51-android.rules
 sudo service udev restart
 
-###############################################################################
-# Dock, Dashboard, and hot corners                                            #
-###############################################################################
-
-###############################################################################
-# Photos                                                                      #
-###############################################################################
-
-###############################################################################
-# Kill affected applications                                                  #
-###############################################################################
+# Configure ThinkPad fan control (only on ThinkPads)
+if sudo dmidecode -s system-product-name | grep -qi "thinkpad"; then
+    echo "ThinkPad detected, configuring fan control..."
+    bash "$(dirname "$0")/thinkfan.sh"
+fi
 
 sudo apt-get autoremove -y
