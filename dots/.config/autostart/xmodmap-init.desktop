@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=xmodmap-init
+Comment=Initialize xmodmap for Danish keyboard layout (æøå)
+Exec=/home/hw4m/bin/xmodmap-init
+Terminal=false
+StartupNotify=false
+X-GNOME-Autostart-enabled=true

@@ -8,7 +8,6 @@ symlinkDotfiles() {
     ln -sfn "$(pwd)/dots/.aliases" "${HOME}/.aliases"
     ln -sfn "$(pwd)/dots/.fiftytwo" "${HOME}/.fiftytwo"
     ln -sfn "$(pwd)/dots/.gitconfig" "${HOME}/.gitconfig"
-    ln -sfn "$(pwd)/dots/.xprofile" "${HOME}/.xprofile"
     ln -sfn "$(pwd)/dots/.danish-mac.xmodmap" "${HOME}/.xmodmap"
 }
 
@@ -22,17 +21,20 @@ symlinkBin() {
     done
 }
 
-moveDotConfig() {
-    src=".config"
-    dest="$HOME/.config"
-    mkdir -p "$dest"
-    cp -r "$src"/* "$dest"/
+symlinkDotConfig() {
+    mkdir -p "$HOME/.config/autostart"
+    for file in "dots/.config/autostart"/*; do
+        if [ -f "$file" ]; then
+            filename=$(basename "$file")
+            ln -sfn "$(pwd)/$file" "$HOME/.config/autostart/$filename"
+        fi
+    done
 }
 
 bootstrap() {
     symlinkDotfiles
     symlinkBin
-    moveDotConfig
+    symlinkDotConfig
 
     # Run distribution specific bootstrap process
     case $OS in
