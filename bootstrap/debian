@@ -130,7 +130,7 @@ sudo apt-get update
 sudo apt-get install -y teamviewer
 
 echo "Installing FileBot..."
-curl -fsSL "https://raw.githubusercontent.com/filebot/plugins/master/gpg/maintainer.pub" | sudo gpg --dearmor --output "/usr/share/keyrings/filebot.gpg"
+curl -fsSL "https://raw.githubusercontent.com/filebot/plugins/master/gpg/maintainer.pub" | sudo gpg --dearmor --yes -o "/usr/share/keyrings/filebot.gpg"
 echo "deb [arch=all signed-by=/usr/share/keyrings/filebot.gpg] https://get.filebot.net/deb/ universal main" | sudo tee "/etc/apt/sources.list.d/filebot.list" > /dev/null
 sudo apt-get update
 sudo apt-get install -y --install-recommends default-jre openjfx zenity mediainfo libchromaprint-tools p7zip-full unrar filebot
