@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Exit on error, undefined variables, and pipe failures
+set -euo pipefail
+
 ###############################################################################
 # Script Initialization                                                       #
 ###############################################################################
@@ -12,7 +15,7 @@ IS_X64=$(( ${ARCH} == "64" ))
 # Simple function for downloading and installing a deb package
 function download_and_install() {
     # Download the artifact
-    wget -O pkg.deb $1
+    wget -O pkg.deb "$1"
     # Install the package
     yes | sudo dpkg -i pkg.deb
     # Resolve dependencies
@@ -44,8 +47,6 @@ PACKAGES=(
     jq
     markdown
     npm
-    python2
-    python2-dev
     python3
     python3-dev
     python-is-python3
@@ -60,7 +61,7 @@ PACKAGES=(
     htop
     curl
     geeqie
-    chromium-browser
+    chromium
     openjdk-8-jdk
     openjdk-8-jre
     openjdk-11-jdk
@@ -81,15 +82,19 @@ PACKAGES=(
 )
 
 echo "Append distribution specific apt packages"
-if [ $DISTRIBUTION == "ubuntu" ]; then
+if [ "$DISTRIBUTION" == "ubuntu" ]; then
     UBUNTU_PACKAGES=(
         nautilus-dropbox
         ubuntu-restricted-extras
     )
     PACKAGES=("${PACKAGES[@]}" "${UBUNTU_PACKAGES[@]}")
-elif [ $DISTRIBUTION == "linuxmint" ]; then
+elif [ "$DISTRIBUTION" == "linuxmint" ]; then
+    # Enable 32-bit architecture support for multiarch
+    sudo dpkg --add-architecture i386
+    
     MINT_PACKAGES=(
-        ia32-libs
+        libc6:i386
+        libstdc++6:i386
         nemo-dropbox
     )
     PACKAGES=("${PACKAGES[@]}" "${MINT_PACKAGES[@]}")
@@ -102,52 +107,62 @@ echo "Cleaning up..."
 sudo apt-get clean
 
 ###############################################################################
-# Install regulare packages and PPAs                                         #
+# Install additional packages and applications                               #
 ###############################################################################
 
 echo "Installing Sublime text..."
 wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null
-echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list > /dev/null
 sudo apt-get update
 sudo apt-get install -y sublime-text
 
-echo "Installing Intellij..."
-sudo add-apt-repository -y ppa:mmk2410/intellij-idea
-sudo apt-get update
-sudo apt-get install -y intellij-idea-community
+echo "Installing IntelliJ IDEA Community..."
+sudo rm -rf /opt/idea-IC-*
+wget -O idea.tar.gz "https://data.services.jetbrains.com/products/download?platform=linux&code=IIC"
+sudo tar -xzf idea.tar.gz -C /opt/
+sudo ln -sf /opt/idea-IC-*/bin/idea.sh /usr/local/bin/idea
+rm idea.tar.gz
 
 echo "Installing TeamViewer..."
-if [ $IS_X64 ]; then
-    download_and_install 'https://download.teamviewer.com/download/linux/teamviewer_amd64.deb'
-else
-    download_and_install 'https://download.teamviewer.com/download/linux/teamviewer_i386.deb'
-fi
+wget -qO - https://download.teamviewer.com/download/linux/signature/TeamViewer2017.asc | sudo gpg --dearmor --yes -o /usr/share/keyrings/teamviewer-keyring.gpg
+echo "deb [arch=amd64,i386 signed-by=/usr/share/keyrings/teamviewer-keyring.gpg] https://linux.teamviewer.com/deb stable main" | sudo tee /etc/apt/sources.list.d/teamviewer.list > /dev/null
+sudo apt-get update
+sudo apt-get install -y teamviewer
 
 echo "Installing FileBot..."
-if [ $IS_X64 ]; then
-    download_and_install 'http://filebot.sourceforge.net/download.php?type=deb&arch=amd64'
-else
-    download_and_install 'http://filebot.sourceforge.net/download.php?type=deb&arch=i386'
-fi
+curl -fsSL "https://raw.githubusercontent.com/filebot/plugins/master/gpg/maintainer.pub" | sudo gpg --dearmor --output "/usr/share/keyrings/filebot.gpg"
+echo "deb [arch=all signed-by=/usr/share/keyrings/filebot.gpg] https://get.filebot.net/deb/ universal main" | sudo tee "/etc/apt/sources.list.d/filebot.list" > /dev/null
+sudo apt-get update
+sudo apt-get install -y --install-recommends default-jre openjfx zenity mediainfo libchromaprint-tools p7zip-full unrar filebot
 
 echo "Installing Signal..."
 wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
-cat signal-desktop-keyring.gpg | sudo tee -a /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
-echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' | sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
+echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' | sudo tee /etc/apt/sources.list.d/signal-xenial.list > /dev/null
+rm signal-desktop-keyring.gpg
 sudo apt update && sudo apt install -y signal-desktop
 
 echo "Installing Telegram..."
 wget -O telegram.tar.xz https://telegram.org/dl/desktop/linux
 tar xf telegram.tar.xz
+sudo rm -rf /opt/telegram
 sudo mv Telegram /opt/telegram
 sudo ln -sf /opt/telegram/Telegram /usr/bin/telegram
 rm telegram.tar.xz
 
 echo "Installing VSCode..."
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /usr/share/keyrings/packages.microsoft.gpg > /dev/null
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
 sudo apt update
 sudo apt install code -y
+
+# Add Synology Drive Client to downloads
+# Parse this link, and take the first link:
+# https://archive.synology.com/download/Utility/SynologyDriveClient
+
+# Add filezilla to downloads
+# filezilla
+
 
 echo "Applying debian system preferences"
 
@@ -164,7 +179,7 @@ echo "Applying debian system preferences"
 ###############################################################################
 
 # Device udev rules
-sudo curl --create-dirs -L -o /etc/udev/rules.d/51-android.rules -O -L https://raw.githubusercontent.com/snowdream/51-android/master/51-android.rules
+sudo curl --create-dirs -L -o /etc/udev/rules.d/51-android.rules https://raw.githubusercontent.com/snowdream/51-android/master/51-android.rules
 sudo chmod a+r /etc/udev/rules.d/51-android.rules
 sudo service udev restart
 
@@ -181,5 +196,3 @@ sudo service udev restart
 ###############################################################################
 
 sudo apt-get autoremove -y
-
-echo "Done. Note that some of these changes require a logout/restart to take effect."

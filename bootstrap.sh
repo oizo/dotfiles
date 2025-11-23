@@ -51,7 +51,7 @@ bootstrap() {
         *)
             logerr "${OS} is unsupported";;
     esac
-    echo "Done. For changes to take effect, either source ~/.profile or reboot"
+    echo "Done. For changes to take effect please reboot"
 }
 
 # Check we're not running as root, to ensure we place dotfiles in the correct home dir
