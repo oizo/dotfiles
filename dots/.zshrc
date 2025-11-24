@@ -4,7 +4,6 @@ if [ -f "$HOME/.sharedrc" ] ; then
     source "$HOME/.sharedrc"
 fi
 
-logerr "TODO xmodmap isn't working for manjaro"
 logerr "TODO check if zsh completions are needed"
 
 # Set history control to ignore duplicates and commands starting with a space
