@@ -7,8 +7,6 @@
 	longpaths = true
 	editor = code --wait
 	excludesfile = ~/.gitignore
-[column]
-	ui = auto
 [branch]
 	sort = -committerdate
 [tag]
