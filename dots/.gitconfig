@@ -4,9 +4,15 @@
 [core]
 	autocrlf = input
 	trustctime = false
+	longpaths = true
+	editor = code --wait
 [color]
 	ui = true
 	branch = true
 	diff = true
 	interactive = true
 	status = true
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
