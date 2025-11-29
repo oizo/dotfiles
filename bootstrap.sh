@@ -2,6 +2,7 @@
 
 symlinkDotfiles() {
     ln -sfn "$(pwd)/dots/.profile" "${HOME}/.profile"
+    ln -sfn "$(pwd)/dots/.xprofile" "${HOME}/.xprofile"
     ln -sfn "$(pwd)/dots/.sharedrc" "${HOME}/.sharedrc"
     ln -sfn "$(pwd)/dots/.bashrc" "${HOME}/.bashrc"
     ln -sfn "$(pwd)/dots/.zshrc" "${HOME}/.zshrc"
