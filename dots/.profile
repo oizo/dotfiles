@@ -9,3 +9,5 @@ fi
 if [ -n "$ZSH_VERSION" ] && [ -f ~/.zshrc ]; then
     source ~/.zshrc
 fi
+
+setxkbmap -option compose:menu

@@ -9,6 +9,8 @@ symlinkDotfiles() {
     ln -sfn "$(pwd)/dots/.fiftytwo" "${HOME}/.fiftytwo"
     ln -sfn "$(pwd)/dots/.demant" "${HOME}/.demant"
     ln -sfn "$(pwd)/dots/.gitconfig" "${HOME}/.gitconfig"
+    ln -sfn "$(pwd)/dots/.config/git-cola/settings" "${HOME}/.config/git-cola/settings"
+    sudo ln -sfn "$(pwd)/dots/.config/keyd/default.conf" "/etc/keyd/default.conf"
 }
 
 symlinkBin() {

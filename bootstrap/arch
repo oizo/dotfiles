@@ -34,7 +34,7 @@ PACMAN_PACKAGES=(
     virtualbox-guest-iso
     vlc
     whois
-    xdotool
+    keyd
 )
 echo "Installing packages from official repository..."
 sudo pamac install --no-confirm ${PACMAN_PACKAGES[@]}

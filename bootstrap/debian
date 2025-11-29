@@ -78,7 +78,6 @@ PACKAGES=(
     git-cola
     unrar-free
     p7zip-full
-    xdotool
 )
 
 echo "Append distribution specific apt packages"
@@ -155,6 +154,15 @@ wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | su
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
 sudo apt update
 sudo apt install code -y
+
+# echo "Installing Keyd..."
+wget -O keyd.tar.gz https://github.com/rvaiya/keyd/archive/refs/tags/v2.5.0.tar.gz
+mkdir -p keyd-sources
+tar -xzf keyd.tar.gz -C keyd-sources --strip-components=1
+cd keyd-sources
+make && sudo make install
+cd ..
+rm -rf keyd-sources keyd.tar.gz
 
 # Add Synology Drive Client to downloads
 # Parse this link, and take the first link:
