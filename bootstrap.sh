@@ -45,6 +45,9 @@ bootstrap() {
         *)
             logerr "${OS} is unsupported";;
     esac
+
+    sudo systemctl enable keyd --now
+
     echo "Done. For changes to take effect please reboot"
 }
 
